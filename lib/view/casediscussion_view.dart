@@ -1,15 +1,23 @@
 import 'package:better_polls/better_polls.dart';
+import 'package:doctor/view/addquestion_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class PollView extends StatefulWidget {
-  const PollView({Key? key}) : super(key: key);
+import '../Provider/question_provider.dart';
+
+class CasediscussionView extends StatefulWidget {
+  String? id;
+  String? Title;
+  String? Option;
+
+  CasediscussionView({this.id, this.Title, this.Option});
 
   @override
-  State<PollView> createState() => _PollViewState();
+  State<CasediscussionView> createState() => _CasediscussionViewState();
 }
 
-class _PollViewState extends State<PollView> {
+class _CasediscussionViewState extends State<CasediscussionView> {
   double option1 = 1.0;
   double option2 = 3.0;
   double option3 = 1.0;
@@ -26,7 +34,17 @@ class _PollViewState extends State<PollView> {
 
   @override
   Widget build(BuildContext context) {
+    final getData1 = Provider.of<QuestionProvider>(context);
+
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.redAccent,
+          child: Text("add Q"),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => AddQuestion(),
+            ));
+          }),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -42,74 +60,90 @@ class _PollViewState extends State<PollView> {
                 SizedBox(
                   height: 10,
                 ),
-                Card(
-
-                  color: Color.fromRGBO(230, 234, 243, 1),
-                  child: Container(
-                    margin: EdgeInsets.all(15),
-                    child: Polls(
-                      children: [
-                        // This cannot be less than 2, else will throw an exception
-                        Polls.options(
-                            title: 'May be',
-                            value: option1),
-                        Polls.options(
-                            title: 'yes',
-                            value: option2),
-                        Polls.options(
-                            title: 'no',
-                            value: option3),
-                        Polls.options(
-                            title: 'other',
-                            value: option4),
-                      ],
-                      optionBarRadius: 9,
-                      borderWidth: 1,
-                      optionHeight: 70,
-
-                      optionSpacing: 12,
-                      question: Padding(
-                        padding: EdgeInsets.all(12),
-                        child: Text(
-                            'Do you recommend Vitamin K2\nfor patients with low-\nenergy bone fractures?',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+                SizedBox(
+                  height: 300,
+                  child: getData1.ques.isNotEmpty
+                      ? ListView.builder(
+                    itemCount: getData1.ques.length,
+                    itemBuilder: (context, index) => Card(
+                      color: Color.fromRGBO(230, 234, 243, 1),
+                      child: Container(
+                        margin: EdgeInsets.all(15),
+                        child: Polls(
+                          children: [
+                            // This cannot be less than 2, else will throw an exception
+                            Polls.options(
+                                title:
+                                '${getData1.ques.values.toList()[index].Option}',
+                                value: option1),
+                            Polls.options(
+                                title:
+                                '${getData1.ques.values.toList()[index].Option}',
+                                value: option2),
+                            Polls.options(
+                                title:
+                                '${getData1.ques.values.toList()[index].Option}',
+                                value: option3),
+                            Polls.options(
+                                title:
+                                '${getData1.ques.values.toList()[index].Option}',
+                                value: option4),
+                          ],
+                          optionBarRadius: 9,
+                          borderWidth: 1,
+                          optionHeight: 70,
+                          optionSpacing: 12,
+                          question: Padding(
+                            padding: EdgeInsets.all(12),
+                            child: Text(
+                              '${getData1.ques.values.toList()[index].Title}',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17),
+                            ),
+                          ),
+                          currentUser: user,
+                          creatorID: creator,
+                          voteData: usersWhoVoted,
+                          userChoice: usersWhoVoted[user],
+                          onVoteBorderColor: Colors.blue,
+                          voteCastedBorderColor: Colors.orange,
+                          onVoteBackgroundColor: Colors.blue,
+                          leadingBackgroundColor: Colors.lightGreen,
+                          backgroundColor: Colors.white,
+                          voteCastedBackgroundColor: Colors.grey,
+                          onVote: (choice) {
+                            setState(() {
+                              usersWhoVoted[user] = choice;
+                            });
+                            if (choice == 1) {
+                              setState(() {
+                                option1 += 1.0;
+                              });
+                            }
+                            if (choice == 2) {
+                              setState(() {
+                                option2 += 1.0;
+                              });
+                            }
+                            if (choice == 3) {
+                              setState(() {
+                                option3 += 1.0;
+                              });
+                            }
+                            if (choice == 4) {
+                              setState(() {
+                                option4 += 1.0;
+                              });
+                            }
+                          },
+                        ),
                       ),
-                      currentUser: user,
-                      creatorID: creator,
-                      voteData: usersWhoVoted,
-                      userChoice: usersWhoVoted[user],
-                      onVoteBorderColor: Colors.blue,
-                      voteCastedBorderColor: Colors.orange,
-                      onVoteBackgroundColor: Colors.blue,
-                      leadingBackgroundColor: Colors.lightGreen,
-                      backgroundColor: Colors.white,
-                      voteCastedBackgroundColor: Colors.grey,
-                      onVote: (choice) {
-                        setState(() {
-                          usersWhoVoted[user] = choice;
-                        });
-                        if (choice == 1) {
-                          setState(() {
-                            option1 += 1.0;
-                          });
-                        }
-                        if (choice == 2) {
-                          setState(() {
-                            option2 += 1.0;
-                          });
-                        }
-                        if (choice == 3) {
-                          setState(() {
-                            option3 += 1.0;
-                          });
-                        }
-                        if (choice == 4) {
-                          setState(() {
-                            option4 += 1.0;
-                          });
-                        }
-                      },
                     ),
-                  ),
+                  )
+                      : Align(
+                      alignment: Alignment.center,
+                      child: Text("No questions")),
                 ),
                 SizedBox(
                   height: 10,
