@@ -1,7 +1,5 @@
 import 'package:doctor/Provider/conferences_provider.dart';
-import 'package:doctor/view/addquestion_view.dart';
 import 'package:doctor/view/casediscussion_view.dart';
-import 'package:doctor/view/conferences_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +26,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: CasediscussionView(),
+      home: PollView(),
     );
   }
 }

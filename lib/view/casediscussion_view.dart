@@ -1,41 +1,91 @@
-import 'package:better_polls/better_polls.dart';
-import 'package:doctor/view/addquestion_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:better_polls/better_polls.dart';
 
-import '../Provider/question_provider.dart';
+import 'addquestion_view.dart';
 
-class CasediscussionView extends StatefulWidget {
-  String? id;
-  String? Title;
-  String? Option;
+class po {
+  String id;
 
-  CasediscussionView({this.id, this.Title, this.Option});
+  String title;
 
-  @override
-  State<CasediscussionView> createState() => _CasediscussionViewState();
+  List<options> AllOption;
+
+  po({required this.id, required this.title, required this.AllOption});
 }
 
-class _CasediscussionViewState extends State<CasediscussionView> {
+class options {
+  String opID;
+
+  String opTitle;
+
+  double counterClicked;
+
+  options(
+      {required this.opID,
+      required this.opTitle,
+      required this.counterClicked});
+}
+
+class poData {
+  static po item = po(id: 'po1', title: 'title ', AllOption: [
+    options(opID: 'opID1', opTitle: 'option 1 ', counterClicked: 0.0),
+    options(opID: 'opID2', opTitle: 'option 2', counterClicked: 0.0),
+    options(opID: 'opID3', opTitle: 'option 3', counterClicked: 0.0),
+    options(opID: 'opID4', opTitle: 'option 4', counterClicked: 0.0)
+  ]);
+
+  static void addOption(options newOption) {
+    item.AllOption.add(newOption);
+  }
+}
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Polls',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const PollView(),
+    );
+  }
+}
+
+class PollView extends StatefulWidget {
+  const PollView({Key? key}) : super(key: key);
+
+  @override
+  State<PollView> createState() => _PollViewState();
+}
+
+class _PollViewState extends State<PollView> {
   double option1 = 1.0;
-  double option2 = 3.0;
+  double option2 = 0.0;
   double option3 = 1.0;
   double option4 = 1.0;
+  double option5 = 7.0;
+  double option6 = 3.0;
+  double option7 = 17.0;
+  double option8 = 1.0;
 
   String user = "king@mail.com";
   Map<String, int> usersWhoVoted = {
-    'sam@mail.com': 3,
-    'mike@mail.com': 4,
+    'sam@mail.com': 1,
+    'mike@mail.com': 1,
     'john@mail.com': 1,
-    'kenny@mail.com': 1
+    'kenny@mail.com': 0
   };
   String creator = "eddy@mail.com";
+  double counterClicked = 0.0;
 
   @override
   Widget build(BuildContext context) {
-    final getData1 = Provider.of<QuestionProvider>(context);
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.redAccent,
@@ -62,82 +112,52 @@ class _CasediscussionViewState extends State<CasediscussionView> {
                 ),
                 SizedBox(
                   height: 300,
-                  child: getData1.ques.isNotEmpty
-                      ? ListView.builder(
-                    itemCount: getData1.ques.length,
+                  child: poData.item.AllOption.isNotEmpty
+                      ?  ListView.builder(
+                    itemCount: 1,
                     itemBuilder: (context, index) => Card(
-                      color: Color.fromRGBO(230, 234, 243, 1),
-                      child: Container(
-                        margin: EdgeInsets.all(15),
-                        child: Polls(
-                          children: [
-                            // This cannot be less than 2, else will throw an exception
-                            Polls.options(
-                                title:
-                                '${getData1.ques.values.toList()[index].Option}',
-                                value: option1),
-                            Polls.options(
-                                title:
-                                '${getData1.ques.values.toList()[index].Option}',
-                                value: option2),
-                            Polls.options(
-                                title:
-                                '${getData1.ques.values.toList()[index].Option}',
-                                value: option3),
-                            Polls.options(
-                                title:
-                                '${getData1.ques.values.toList()[index].Option}',
-                                value: option4),
-                          ],
-                          optionBarRadius: 9,
-                          borderWidth: 1,
-                          optionHeight: 70,
-                          optionSpacing: 12,
-                          question: Padding(
-                            padding: EdgeInsets.all(12),
-                            child: Text(
-                              '${getData1.ques.values.toList()[index].Title}',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17),
-                            ),
-                          ),
-                          currentUser: user,
-                          creatorID: creator,
-                          voteData: usersWhoVoted,
-                          userChoice: usersWhoVoted[user],
-                          onVoteBorderColor: Colors.blue,
-                          voteCastedBorderColor: Colors.orange,
-                          onVoteBackgroundColor: Colors.blue,
-                          leadingBackgroundColor: Colors.lightGreen,
-                          backgroundColor: Colors.white,
-                          voteCastedBackgroundColor: Colors.grey,
-                          onVote: (choice) {
-                            setState(() {
-                              usersWhoVoted[user] = choice;
-                            });
-                            if (choice == 1) {
-                              setState(() {
-                                option1 += 1.0;
-                              });
-                            }
-                            if (choice == 2) {
-                              setState(() {
-                                option2 += 1.0;
-                              });
-                            }
-                            if (choice == 3) {
-                              setState(() {
-                                option3 += 1.0;
-                              });
-                            }
-                            if (choice == 4) {
-                              setState(() {
-                                option4 += 1.0;
-                              });
-                            }
-                          },
+                      color: Color.fromRGBO(245, 245  , 245, 1),
+                      child: Polls(
+                        children: poData.item.AllOption.map((option) {
+                          return Polls.options(
+                            title: option.opTitle,
+                            value: option.counterClicked,
+                          );
+                        }).toList(),
+                        optionBarRadius: 24,
+                        borderWidth: 1,
+                        optionHeight: 50,
+                        optionSpacing: 12,
+                        question: const Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Text('What is your favorite place?',style: TextStyle(fontWeight: FontWeight.bold),),
                         ),
+                        currentUser: user,
+                        creatorID: creator,
+                        voteData: usersWhoVoted,
+                        userChoice: usersWhoVoted[user],
+                        onVoteBorderColor: Colors.deepPurple,
+                        voteCastedBorderColor: Colors.orange,
+                        onVoteBackgroundColor: Colors.blue,
+                        leadingBackgroundColor: Colors.lightGreen,
+                        backgroundColor: Colors.white,
+                        voteCastedBackgroundColor: Colors.grey,
+                        onVote: (choice) {
+                          setState(() {
+                            usersWhoVoted[user] = choice;
+                          });
+
+                          if (choice == poData.item.id) {
+                            setState(() {
+                              int selectedOptionIndex = poData.item.AllOption
+                                  .indexWhere((element) => element.opID == choice);
+                              if (selectedOptionIndex != -1) {
+                                poData.item.AllOption[selectedOptionIndex]
+                                    .counterClicked += 1.0;
+                              }
+                            });
+                          }
+                        },
                       ),
                     ),
                   )
