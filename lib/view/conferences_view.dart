@@ -40,12 +40,12 @@ class ConferencesView extends StatelessWidget {
                           ListTile(
                             title: Text(getData.list1[index].Name!),
                             trailing: Text(getData.list1[index].Date!,
-                                style: TextStyle(fontSize: 15)),
+                                style:TextStyle(fontSize: 15)),
                           ),
                           ListTile(
                             title: Text(getData.list1[index].Description!),
                             trailing: Text(getData.list1[index].Location!,
-                                style: TextStyle(fontSize: 15)),
+                                style:TextStyle(fontSize: 15)),
                           ),
                         ],
                       ),

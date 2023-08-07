@@ -1,10 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:doctor/Provider/question_provider.dart';
 
+import '../Provider/option_provider.dart';
+import 'casediscussion_view.dart';
 
 class AddOptions extends StatefulWidget {
-  AddOptions({super.key});
+  final List<po> items;
+  final Function(List<po>) updateItems;
+
+  AddOptions({Key? key, required this.items, required this.updateItems}) : super(key: key);
 
   @override
   State<AddOptions> createState() => _AddOptionsState();
@@ -38,10 +43,9 @@ class _AddOptionsState extends State<AddOptions> {
 
   @override
   Widget build(BuildContext context) {
-    final getData1 = Provider.of<QuestionProvider>(context);
+    final getData1 = Provider.of<OptionProvider>(context);
 
     return SafeArea(
-
       child: Scaffold(
         appBar: AppBar(),
         floatingActionButton: FloatingActionButton(
@@ -95,13 +99,21 @@ class _AddOptionsState extends State<AddOptions> {
                   width: 200,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pop(getData1.addItem(
-                        DateTime.now().toString(),
-                        _titleController.text,
-                        _optionsControllers
-                            .map((controller) => controller.text)
-                            .join(","),
-                      ));
+                      List<options> optionsList = _optionsControllers.map((controller) {
+                        return options(
+                          opID: UniqueKey().toString(),
+                          opTitle: controller.text,
+                          counterClicked: 0.0,
+                        );
+                      }).toList();
+
+                      Navigator.of(context).pop(
+                      widget.updateItems(getData1.addItemToList(
+                      DateTime.now().toString(),
+                      _titleController.text,
+                      optionsList,
+                      ))
+                      );
                     },
                     child: Text(
                       "Add",
