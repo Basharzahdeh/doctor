@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:doctor/Provider/question_provider.dart';
 
 
-class AddQuestion extends StatefulWidget {
-  AddQuestion({super.key});
+class AddOptions extends StatefulWidget {
+  AddOptions({super.key});
 
   @override
-  State<AddQuestion> createState() => _AddQuestionState();
+  State<AddOptions> createState() => _AddOptionsState();
 }
 
-class _AddQuestionState extends State<AddQuestion> {
+class _AddOptionsState extends State<AddOptions> {
   List<TextEditingController> _optionsControllers = [];
   TextEditingController _titleController = TextEditingController();
 

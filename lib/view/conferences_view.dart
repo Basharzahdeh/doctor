@@ -1,8 +1,10 @@
 import 'package:doctor/Provider/conferences_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 class ConferencesView extends StatelessWidget {
   const ConferencesView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final getData = Provider.of<ConferencesProvider>(context);

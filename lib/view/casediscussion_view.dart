@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:better_polls/better_polls.dart';
 
-import 'addquestion_view.dart';
+import 'addoprions_view.dart';
 
 class po {
   String id;
@@ -39,23 +39,7 @@ class poData {
   }
 }
 
-void main() => runApp(const MyApp());
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Polls',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const PollView(),
-    );
-  }
-}
 
 class PollView extends StatefulWidget {
   const PollView({Key? key}) : super(key: key);
@@ -92,7 +76,7 @@ class _PollViewState extends State<PollView> {
           child: Text("add Q"),
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => AddQuestion(),
+              builder: (context) => AddOptions(),
             ));
           }),
       body: SafeArea(
@@ -113,57 +97,62 @@ class _PollViewState extends State<PollView> {
                 SizedBox(
                   height: 300,
                   child: poData.item.AllOption.isNotEmpty
-                      ?  ListView.builder(
-                    itemCount: 1,
-                    itemBuilder: (context, index) => Card(
-                      color: Color.fromRGBO(245, 245  , 245, 1),
-                      child: Polls(
-                        children: poData.item.AllOption.map((option) {
-                          return Polls.options(
-                            title: option.opTitle,
-                            value: option.counterClicked,
-                          );
-                        }).toList(),
-                        optionBarRadius: 24,
-                        borderWidth: 1,
-                        optionHeight: 50,
-                        optionSpacing: 12,
-                        question: const Padding(
-                          padding: EdgeInsets.all(12),
-                          child: Text('What is your favorite place?',style: TextStyle(fontWeight: FontWeight.bold),),
-                        ),
-                        currentUser: user,
-                        creatorID: creator,
-                        voteData: usersWhoVoted,
-                        userChoice: usersWhoVoted[user],
-                        onVoteBorderColor: Colors.deepPurple,
-                        voteCastedBorderColor: Colors.orange,
-                        onVoteBackgroundColor: Colors.blue,
-                        leadingBackgroundColor: Colors.lightGreen,
-                        backgroundColor: Colors.white,
-                        voteCastedBackgroundColor: Colors.grey,
-                        onVote: (choice) {
-                          setState(() {
-                            usersWhoVoted[user] = choice;
-                          });
+                      ? ListView.builder(
+                          itemCount: 1,
+                          itemBuilder: (context, index) => Card(
+                            color: Color.fromRGBO(245, 245, 245, 1),
+                            child: Polls(
+                              children: poData.item.AllOption.map((option) {
+                                return Polls.options(
+                                  title: option.opTitle,
+                                  value: option.counterClicked,
+                                );
+                              }).toList(),
+                              optionBarRadius: 24,
+                              borderWidth: 1,
+                              optionHeight: 50,
+                              optionSpacing: 12,
+                              question: const Padding(
+                                padding: EdgeInsets.all(12),
+                                child: Text(
+                                  'What is your favorite place?',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              currentUser: user,
+                              creatorID: creator,
+                              voteData: usersWhoVoted,
+                              userChoice: usersWhoVoted[user],
+                              onVoteBorderColor: Colors.deepPurple,
+                              voteCastedBorderColor: Colors.orange,
+                              onVoteBackgroundColor: Colors.blue,
+                              leadingBackgroundColor: Colors.lightGreen,
+                              backgroundColor: Colors.white,
+                              voteCastedBackgroundColor: Colors.grey,
+                              onVote: (choice) {
+                                setState(() {
+                                  usersWhoVoted[user] = choice;
+                                });
 
-                          if (choice == poData.item.id) {
-                            setState(() {
-                              int selectedOptionIndex = poData.item.AllOption
-                                  .indexWhere((element) => element.opID == choice);
-                              if (selectedOptionIndex != -1) {
-                                poData.item.AllOption[selectedOptionIndex]
-                                    .counterClicked += 1.0;
-                              }
-                            });
-                          }
-                        },
-                      ),
-                    ),
-                  )
+                                if (choice == poData.item.id) {
+                                  setState(() {
+                                    int selectedOptionIndex = poData
+                                        .item.AllOption
+                                        .indexWhere((element) =>
+                                            element.opID == choice);
+                                    if (selectedOptionIndex != -1) {
+                                      poData.item.AllOption[selectedOptionIndex]
+                                          .counterClicked += 1.0;
+                                    }
+                                  });
+                                }
+                              },
+                            ),
+                          ),
+                        )
                       : Align(
-                      alignment: Alignment.center,
-                      child: Text("No questions")),
+                          alignment: Alignment.center,
+                          child: Text("No questions")),
                 ),
                 SizedBox(
                   height: 10,
