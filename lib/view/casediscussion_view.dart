@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:better_polls/better_polls.dart';
 
-import 'addoprions_view.dart';
+import 'addoptions_view.dart';
 
 class po {
   String id;
@@ -38,8 +38,6 @@ class poData {
     item.AllOption.add(newOption);
   }
 }
-
-
 
 class PollView extends StatefulWidget {
   const PollView({Key? key}) : super(key: key);
